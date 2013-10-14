@@ -16,6 +16,7 @@ namespace GameOfLife
     public World() { setOfLiveCells = new SortedSet<Cell>(); }
     public void giveCellLife(Cell cell) { setOfLiveCells.Add(cell); }
     public bool isCellAlive(Cell cell) { return setOfLiveCells.Contains(cell); }
+    public World tick(){return (new World());}
     private SortedSet<Cell> setOfLiveCells;
   }
 
@@ -68,6 +69,18 @@ namespace ClassLibrary1
       world.giveCellLife(anotherCell);
       Assert.IsFalse(world.isCellAlive(cell));
       Assert.IsTrue(world.isCellAlive(anotherCell));
+    }
+
+
+    [Test]
+    public void testCellWithLessThanTwoLiveNeighboutsDiesOnNextTick()
+    {
+      Cell cell = new Cell(0,0);
+      Cell neighbour = new Cell(0,1);
+      Cell anotherNeighbour = new Cell(1,0);
+      
+      world.giveCellLife(cell);
+      Assert.IsFalse(world.tick().isCellAlive(cell));
     }
   }
 }
