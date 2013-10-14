@@ -51,6 +51,10 @@
     <PreBuildEvent>cd $(SolutionDir)
 ..\makeNUnit.bat</PreBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>cd $(SolutionDir)
+..\NUnit\bin\Debug\nunit-console.exe $(TargetPath)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

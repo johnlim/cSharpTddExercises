@@ -5,7 +5,13 @@ using System.Text;
 
 namespace GameOfLife
 {
-  public class Class1
+  using NUnit.Framework;
+  
+  public class testFail
   {
+    [Test]
+    public void testFailure(){
+      Assert.Fail();
+    }
   }
 }
