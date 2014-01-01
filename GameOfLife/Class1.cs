@@ -22,7 +22,7 @@ namespace GameOfLife
 
   public class Cell : IComparable<Cell>
   {
-    public Cell(int x, int y) { xCoordinate = x; yCoordinate = y; }
+    public Cell(int x, int y) { xCoordinate = x; yCoordinate = y;}
     public int CompareTo(Cell cell)
     {
       if (xCoordinate < cell.xCoordinate) return -1;
@@ -31,8 +31,21 @@ namespace GameOfLife
       if (yCoordinate < cell.yCoordinate) return -1;
       else return 1;
     }
+    public List<Cell> getNeighbours(){
+      listOfNeighbours = new List<Cell>();
+      listOfNeighbours.Add(new Cell(xCoordinate + 1, yCoordinate));
+      listOfNeighbours.Add(new Cell(xCoordinate, yCoordinate + 1));
+      listOfNeighbours.Add(new Cell(xCoordinate + 1, yCoordinate + 1));
+      listOfNeighbours.Add(new Cell(xCoordinate - 1, yCoordinate));
+      listOfNeighbours.Add(new Cell(xCoordinate, yCoordinate - 1));
+      listOfNeighbours.Add(new Cell(xCoordinate - 1, yCoordinate - 1));
+      listOfNeighbours.Add(new Cell(xCoordinate + 1, yCoordinate - 1));
+      listOfNeighbours.Add(new Cell(xCoordinate - 1, yCoordinate + 1));
+      return listOfNeighbours;
+    }
     private int xCoordinate;
     private int yCoordinate;
+    private List<Cell> listOfNeighbours;
   }
 }
 
@@ -71,6 +84,14 @@ namespace ClassLibrary1
       Assert.IsTrue(world.isCellAlive(anotherCell));
     }
 
+    [Test]
+    public void testCellKnowsItsNeighbours()
+    {
+      Cell cell = new Cell(0,0);
+      Cell neighbour = new Cell(1,0);
+      List<Cell> listOfNeighbours = cell.getNeighbours();
+      Assert.AreEqual(0, cell.getNeighbours()[0].CompareTo(neighbour));
+    }
 
     [Test]
     public void testCellWithLessThanTwoLiveNeighboutsDiesOnNextTick()
@@ -81,6 +102,19 @@ namespace ClassLibrary1
       
       world.giveCellLife(cell);
       Assert.IsFalse(world.tick().isCellAlive(cell));
+    }
+
+    [Test]
+    [Ignore("need to implement method to determine number of live neighbours")]
+    public void testCellWithTwoLiveNeighboursLiveOnNextTick()
+    {
+      Cell cell = new Cell(0,0);
+      Cell neighbour = new Cell(0,1);
+      Cell anotherNeighbour = new Cell(1,0);
+      world.giveCellLife(cell);
+      world.giveCellLife(neighbour);
+      world.giveCellLife(anotherNeighbour);
+      Assert.IsTrue(world.tick().isCellAlive(cell)); 
     }
   }
 }
